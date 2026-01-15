@@ -1,0 +1,35 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:forohub_db_test;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    show-sql: false                   # false para que los tests sean más rápidos
+    hibernate:
+      ddl-auto: create-drop           # crea y borra la BD cada vez que corren los tests
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: false                  # opcional: puedes activarlo para debug
+
+  flyway:
+    enabled: false                    # normalmente no usamos migraciones en tests
+
+server:
+  port: 0                           # puerto aleatorio para evitar conflictos en CI
+
+challenge:
+  forohub:
+    security:
+      jwt:
+        secret: test-jwt-secret-para-pruebas-nada-seguro
+        expiration: 3600000           # 1 hora para tests

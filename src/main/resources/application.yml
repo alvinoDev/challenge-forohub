@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: challenge-forohub
+
+  jackson:
+    time-zone: America/La_Paz
+    # date-format: yyyy-MM-dd HH:mm:ss   # opcional si quieres formato fijo
+
+  web:
+    error:
+      include-stacktrace: never
+      include-message: never
+      include-binding-errors: never
+      include-exception: false
+
+  main:
+    banner-mode: off                  # más limpio en consola
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.hibernate: INFO

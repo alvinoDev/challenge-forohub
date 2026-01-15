@@ -1,0 +1,40 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/dev_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: ${DB_PASSWORD:change-me-local}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    format-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect   # MySQL 8 o superior
+        format_sql: true
+    hibernate:
+      ddl-auto: update                # ¡Solo en desarrollo!
+
+  flyway:
+    enabled: true                     # si vas a usar Flyway (muy recomendado)
+    baseline-on-migrate: true
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementSecurityAutoConfiguration
+
+server:
+  port: 8080                        # diferente al predeterminado para evitar conflictos
+
+challenge:
+  forohub:
+    security:
+      jwt:
+        secret: ${JWT_SECRET:tu-secreto-super-largo-y-seguro-1234567890abcdef}
+        expiration: 86400000        # 24 horas en desarrollo (más cómodo)

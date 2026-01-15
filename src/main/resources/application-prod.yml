@@ -1,0 +1,53 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://tu-host-produccion:3306/forohub?serverTimezone=UTC}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+
+  jpa:
+    show-sql: false
+    format-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate            # ¡Muy importante! Solo valida, no modifica estructura
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    out-of-order: false
+
+  sql:
+    init:
+      mode: never
+
+server:
+  port: 8080
+  forward-headers-strategy: framework
+  error:
+    whitelabel:
+      enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus  # opcional si usas monitoreo
+
+challenge:
+  forohub:
+    security:
+      jwt:
+        secret: ${JWT_SECRET}           # OBLIGATORIO: debe venir de variable de entorno / secrets
+        expiration: 3600000             # 1 hora en producción (más seguro)
