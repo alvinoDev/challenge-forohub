@@ -1,0 +1,16 @@
+CREATE TABLE topico (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(255) NOT NULL UNIQUE,
+    mensaje TEXT NOT NULL,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(55) NOT NULL DEFAULT 'NO_RESPONDIDO',
+    autor_id BIGINT NOT NULL,
+    curso_id BIGINT NOT NULL,
+
+    CONSTRAINT fk_topico_usuario_id FOREIGN KEY (autor_id) REFERENCES usuario(id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT fk_topico_curso_id FOREIGN KEY (curso_id) REFERENCES curso(id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
