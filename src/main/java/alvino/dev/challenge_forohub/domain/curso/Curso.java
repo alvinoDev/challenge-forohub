@@ -23,8 +23,15 @@ public class Curso {
     @Enumerated(EnumType.STRING)  // Mapea el enum a VARCHAR en BD
     private Categoria categoria;
 
+    // Constructor para registro
     public Curso(DatosRegistroCurso datos) {
         this.nombre = datos.nombre();
         this.categoria = datos.categoria();
+    }
+
+    // Método para actualizar registro
+    public void update(DatosActualizarCurso datos) {
+        if (datos.nombre() != null) this.nombre = datos.nombre();
+        if (datos.categoria() != null) this.categoria = datos.categoria();
     }
 }

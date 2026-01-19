@@ -32,4 +32,11 @@ public class CursoService {
         Curso curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
         return new DatosRespuestaCurso(curso);
     }
+
+    public DatosRespuestaCurso update(Long id, DatosActualizarCurso datos) {
+        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        curso.update(datos);
+        cursoRepository.save(curso);
+        return new DatosRespuestaCurso(curso);
+    }
 }

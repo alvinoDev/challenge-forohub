@@ -39,8 +39,9 @@ public class CursoController {
     }
 
     @PutMapping("/{id}")
-    public void update() {
-        System.out.println("update");
+    public ResponseEntity<DatosRespuestaCurso> update(@PathVariable Long id, @RequestBody @Valid DatosActualizarCurso datos) {
+        var curso = cursoService.update(id, datos);
+        return ResponseEntity.ok(curso);
     }
 
     @DeleteMapping("/{id}")
