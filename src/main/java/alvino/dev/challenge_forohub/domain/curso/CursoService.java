@@ -19,7 +19,7 @@ public class CursoService {
             throw new RuntimeException("Curso Ya existe");
         }
 
-        Curso curso = new Curso(datos);
+        var curso = new Curso(datos);
         cursoRepository.save(curso);
         return new DatosRespuestaCurso(curso);
     }
@@ -29,14 +29,20 @@ public class CursoService {
     }
 
     public DatosRespuestaCurso getById(Long id) {
-        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
         return new DatosRespuestaCurso(curso);
     }
 
     public DatosRespuestaCurso update(Long id, DatosActualizarCurso datos) {
-        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
         curso.update(datos);
         cursoRepository.save(curso);
         return new DatosRespuestaCurso(curso);
+    }
+
+    public void delete(Long id) {
+        var curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        curso.softDelete();
+        cursoRepository.save(curso);
     }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE curso ADD activo TINYINT DEFAULT 1;
