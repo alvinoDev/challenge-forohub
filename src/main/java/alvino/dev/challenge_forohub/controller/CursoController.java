@@ -1,6 +1,9 @@
-package alvino.dev.challenge_forohub.domain.curso;
+package alvino.dev.challenge_forohub.controller;
 
-import alvino.dev.challenge_forohub.domain.topico.DatosRespuestaTopico;
+import alvino.dev.challenge_forohub.domain.curso.CursoService;
+import alvino.dev.challenge_forohub.domain.curso.DatosActualizarCurso;
+import alvino.dev.challenge_forohub.domain.curso.DatosRegistroCurso;
+import alvino.dev.challenge_forohub.domain.curso.DatosRespuestaCurso;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
