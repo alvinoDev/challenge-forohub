@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CursoService {
 
@@ -24,5 +26,10 @@ public class CursoService {
 
     public Page<DatosRespuestaCurso> findAll(Pageable pageable) {
         return cursoRepository.findAll(pageable).map(DatosRespuestaCurso::new);
+    }
+
+    public DatosRespuestaCurso getById(Long id) {
+        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        return new DatosRespuestaCurso(curso);
     }
 }

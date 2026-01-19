@@ -33,8 +33,9 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public void getById() {
-        System.out.println("read");
+    public ResponseEntity<DatosRespuestaCurso> getById(@PathVariable Long id) {
+        var curso = cursoService.getById(id);
+        return ResponseEntity.ok(curso);
     }
 
     @PutMapping("/{id}")
