@@ -35,4 +35,10 @@ public class PerfilService {
         perfilRepository.save(perfil);
         return new DatosRespuestaPerfil(perfil);
     }
+
+    public void delete(Long id) {
+        var perfil = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        perfil.softDelete();
+        perfilRepository.save(perfil);
+    }
 }

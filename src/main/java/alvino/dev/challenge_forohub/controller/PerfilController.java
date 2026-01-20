@@ -45,4 +45,10 @@ public class PerfilController {
         var curso = perfilService.update(id, datos);
         return ResponseEntity.ok(curso);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        perfilService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

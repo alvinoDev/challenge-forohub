@@ -29,4 +29,9 @@ public class Perfil {
     public void updateData(DatosActualizarPerfil datos) {
         if (datos.nombre() != null) this.nombre = datos.nombre();
     }
+
+    // Método para hacer una Eliminación Lógica
+    public void softDelete() {
+        this.activo = false;
+    }
 }
