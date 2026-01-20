@@ -1,6 +1,9 @@
 package alvino.dev.challenge_forohub.domain.perfil;
 
+import alvino.dev.challenge_forohub.domain.curso.DatosRespuestaCurso;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,5 +19,9 @@ public class PerfilService {
         var perfil = new Perfil(datos);
         perfilRepository.save(perfil);
         return new DatosRespuestaPerfil(perfil);
+    }
+
+    public Page<DatosRespuestaPerfil> findAll(Pageable pageable) {
+        return perfilRepository.findAll(pageable).map(DatosRespuestaPerfil::new);
     }
 }
