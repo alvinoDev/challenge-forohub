@@ -55,4 +55,7 @@ public class Usuario {
         if (datos.nombre() != null) this.nombre = datos.nombre();
         if (datos.contrasena() != null) this.contrasena = datos.contrasena();  // En etapa 2: hash
     }
+
+    // Eliminación lógica
+    public void softDelete() { this.activo = false; }
 }

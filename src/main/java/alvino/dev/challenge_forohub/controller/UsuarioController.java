@@ -46,4 +46,10 @@ public class UsuarioController {
         var usuario = usuarioService.update(id, datos);
         return ResponseEntity.ok(usuario);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        usuarioService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -12,7 +12,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByCorreoElectronico(String correoElectronico);
 
     // Mostrar Usuarios con perfiles
-    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.perfiles")
+    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.perfiles WHERE u.activo = true")
     Page<Usuario> findAllWithPerfiles(Pageable pageable);
 
     // Mostrar Usuario específico con perfiles

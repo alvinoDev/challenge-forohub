@@ -62,4 +62,13 @@ public class UsuarioService {
         // Hibernate detecta los cambios y hace el commit solo.
         return new DatosRespuestaUsuario(usuario);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        var usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.softDelete();
+
+        // usuarioRepository.save(usuario); // No afecta el resultado final, pero es innecesario si ya tengo @Transactional
+        // Al terminar el método, Hibernate enviará el UPDATE automáticamente
+    }
 }
