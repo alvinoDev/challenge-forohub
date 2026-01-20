@@ -1,5 +1,6 @@
 package alvino.dev.challenge_forohub.domain.usuario;
 
+import alvino.dev.challenge_forohub.domain.perfil.Perfil;
 import alvino.dev.challenge_forohub.domain.perfil.PerfilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,25 @@ public class UsuarioService {
 
     public DatosRespuestaUsuario getById(Long id) {
         var usuario = usuarioRepository.findByIdWithPerfiles(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return new DatosRespuestaUsuario(usuario);
+    }
+
+    @Transactional
+    public DatosRespuestaUsuario update(Long id, DatosActualizarUsuario datos) {
+        var usuario = usuarioRepository.findByIdWithPerfiles(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.updateData(datos);
+
+        // Actualiza perfiles si se envían
+        if (datos.perfilIds() != null) {
+            usuario.getPerfiles().clear();  // Borra actuales | y/o ya los cargamos con JOIN FETCH
+            for (Long perfilId : datos.perfilIds()) {
+                Perfil perfil = perfilRepository.findById(perfilId).orElseThrow(() -> new RuntimeException("Perfil no encontrado: " + perfilId));
+                usuario.agregarPerfil(perfil);
+            }
+        }
+        // usuarioRepository.save(usuario); // No afecta el resultado final, pero es innecesario si ya tengo @Transactional
+
+        // Hibernate detecta los cambios y hace el commit solo.
         return new DatosRespuestaUsuario(usuario);
     }
 }

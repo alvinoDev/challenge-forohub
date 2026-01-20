@@ -49,4 +49,10 @@ public class Usuario {
     public void agregarPerfil(Perfil perfil) {
         this.perfiles.add(perfil);
     }
+
+    // Método para actualizar
+    public void updateData(DatosActualizarUsuario datos) {
+        if (datos.nombre() != null) this.nombre = datos.nombre();
+        if (datos.contrasena() != null) this.contrasena = datos.contrasena();  // En etapa 2: hash
+    }
 }

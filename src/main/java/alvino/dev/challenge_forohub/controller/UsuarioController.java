@@ -1,5 +1,6 @@
 package alvino.dev.challenge_forohub.controller;
 
+import alvino.dev.challenge_forohub.domain.usuario.DatosActualizarUsuario;
 import alvino.dev.challenge_forohub.domain.usuario.DatosRegistroUsuario;
 import alvino.dev.challenge_forohub.domain.usuario.DatosRespuestaUsuario;
 import alvino.dev.challenge_forohub.domain.usuario.UsuarioService;
@@ -37,6 +38,12 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<DatosRespuestaUsuario> getById(@PathVariable Long id) {
         var usuario = usuarioService.getById(id);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DatosRespuestaUsuario> update(@PathVariable Long id, @RequestBody @Valid DatosActualizarUsuario datos) {
+        var usuario = usuarioService.update(id, datos);
         return ResponseEntity.ok(usuario);
     }
 }
