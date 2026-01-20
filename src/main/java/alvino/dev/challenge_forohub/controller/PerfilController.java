@@ -1,6 +1,6 @@
 package alvino.dev.challenge_forohub.controller;
 
-import alvino.dev.challenge_forohub.domain.curso.DatosRespuestaCurso;
+import alvino.dev.challenge_forohub.domain.perfil.DatosActualizarPerfil;
 import alvino.dev.challenge_forohub.domain.perfil.DatosRegistroPerfil;
 import alvino.dev.challenge_forohub.domain.perfil.DatosRespuestaPerfil;
 import alvino.dev.challenge_forohub.domain.perfil.PerfilService;
@@ -38,5 +38,11 @@ public class PerfilController {
     public ResponseEntity<DatosRespuestaPerfil> getById(@PathVariable Long id) {
         var perfil = perfilService.getById(id);
         return ResponseEntity.ok(perfil);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DatosRespuestaPerfil> update(@PathVariable Long id, @RequestBody @Valid DatosActualizarPerfil datos) {
+        var curso = perfilService.update(id, datos);
+        return ResponseEntity.ok(curso);
     }
 }

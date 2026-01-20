@@ -1,7 +1,5 @@
 package alvino.dev.challenge_forohub.domain.perfil;
 
-import alvino.dev.challenge_forohub.domain.curso.Categoria;
-import alvino.dev.challenge_forohub.domain.curso.DatosRegistroCurso;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,5 +23,10 @@ public class Perfil {
     public Perfil(DatosRegistroPerfil datos) {
         this.nombre = datos.nombre();
         this.activo = true;
+    }
+
+    // Método para actualizar registro
+    public void updateData(DatosActualizarPerfil datos) {
+        if (datos.nombre() != null) this.nombre = datos.nombre();
     }
 }

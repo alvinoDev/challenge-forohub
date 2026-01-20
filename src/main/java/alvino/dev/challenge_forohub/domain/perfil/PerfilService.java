@@ -1,6 +1,5 @@
 package alvino.dev.challenge_forohub.domain.perfil;
 
-import alvino.dev.challenge_forohub.domain.curso.DatosRespuestaCurso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,5 +27,12 @@ public class PerfilService {
     public DatosRespuestaPerfil getById(Long id) {
         var curso = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
         return new DatosRespuestaPerfil(curso);
+    }
+
+    public DatosRespuestaPerfil update(Long id, DatosActualizarPerfil datos) {
+        var perfil = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        perfil.updateData(datos);
+        perfilRepository.save(perfil);
+        return new DatosRespuestaPerfil(perfil);
     }
 }
