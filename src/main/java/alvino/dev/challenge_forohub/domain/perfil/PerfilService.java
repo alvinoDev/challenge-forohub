@@ -21,7 +21,7 @@ public class PerfilService {
     }
 
     public Page<DatosRespuestaPerfil> findAll(Pageable pageable) {
-        return perfilRepository.findAll(pageable).map(DatosRespuestaPerfil::new);
+        return perfilRepository.findAllByActivoTrue(pageable).map(DatosRespuestaPerfil::new);
     }
 
     public DatosRespuestaPerfil getById(Long id) {

@@ -25,7 +25,7 @@ public class CursoService {
     }
 
     public Page<DatosRespuestaCurso> findAll(Pageable pageable) {
-        return cursoRepository.findAll(pageable).map(DatosRespuestaCurso::new);
+        return cursoRepository.findAllByActivoTrue(pageable).map(DatosRespuestaCurso::new);
     }
 
     public DatosRespuestaCurso getById(Long id) {
