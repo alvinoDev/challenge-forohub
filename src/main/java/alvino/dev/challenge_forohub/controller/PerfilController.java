@@ -33,4 +33,10 @@ public class PerfilController {
         var data = perfilService.findAll(pageable);
         return ResponseEntity.ok(data);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosRespuestaPerfil> getById(@PathVariable Long id) {
+        var perfil = perfilService.getById(id);
+        return ResponseEntity.ok(perfil);
+    }
 }

@@ -24,4 +24,9 @@ public class PerfilService {
     public Page<DatosRespuestaPerfil> findAll(Pageable pageable) {
         return perfilRepository.findAll(pageable).map(DatosRespuestaPerfil::new);
     }
+
+    public DatosRespuestaPerfil getById(Long id) {
+        var curso = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
+        return new DatosRespuestaPerfil(curso);
+    }
 }
