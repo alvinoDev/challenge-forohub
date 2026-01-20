@@ -1,0 +1,1 @@
+ALTER TABLE perfil ADD activo TINYINT DEFAULT 1;
