@@ -12,7 +12,7 @@ public class PerfilService {
 
     public DatosRespuestaPerfil create(DatosRegistroPerfil datos) {
         if(perfilRepository.existsByNombre(datos.nombre())) {
-            throw new RuntimeException("El PERFIL ya existe");
+            throw new RuntimeException("El Perfil ya existe");
         }
 
         var perfil = new Perfil(datos);
@@ -30,14 +30,14 @@ public class PerfilService {
     }
 
     public DatosRespuestaPerfil update(Long id, DatosActualizarPerfil datos) {
-        var perfil = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var perfil = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
         perfil.updateData(datos);
         perfilRepository.save(perfil);
         return new DatosRespuestaPerfil(perfil);
     }
 
     public void delete(Long id) {
-        var perfil = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var perfil = perfilRepository.findById(id).orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
         perfil.softDelete();
         perfilRepository.save(perfil);
     }
