@@ -37,4 +37,9 @@ public class UsuarioService {
     public Page<DatosRespuestaUsuario> findAll(Pageable pageable) {
         return usuarioRepository.findAllWithPerfiles(pageable).map(DatosRespuestaUsuario::new);
     }
+
+    public DatosRespuestaUsuario getById(Long id) {
+        var usuario = usuarioRepository.findByIdWithPerfiles(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return new DatosRespuestaUsuario(usuario);
+    }
 }

@@ -33,4 +33,10 @@ public class UsuarioController {
         var data = usuarioService.findAll(pageable);
         return ResponseEntity.ok(data);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosRespuestaUsuario> getById(@PathVariable Long id) {
+        var usuario = usuarioService.getById(id);
+        return ResponseEntity.ok(usuario);
+    }
 }
