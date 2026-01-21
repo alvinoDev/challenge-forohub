@@ -1,5 +1,7 @@
 package alvino.dev.challenge_forohub.domain.topico;
 
+import alvino.dev.challenge_forohub.domain.curso.Curso;
+import alvino.dev.challenge_forohub.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,15 +28,23 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private EstadoTopico status;
 
-    private Long autorId;  // Referencia a Usuario (agrega @ManyToOne después)
-    private Long cursoId;  // Referencia a Curso
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Usuario autor;  // Referencia a Usuario (agrega @ManyToOne después)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;  // Referencia a Curso
+
+    private Boolean activo;
 
     // Constructor para registro (usado en service)
-    public Topico(DatosRegistroTopico datos) {
+    public Topico(DatosRegistroTopico datos, Usuario autor, Curso curso) {
         this.titulo = datos.titulo();
         this.mensaje = datos.mensaje();
         this.status = EstadoTopico.NO_RESPONDIDO;  // Valor por defecto
-        this.autorId = datos.autorId();
-        this.cursoId = datos.cursoId();
+        this.autor = autor;
+        this.curso = curso;
+        this.activo = true;
     }
 }

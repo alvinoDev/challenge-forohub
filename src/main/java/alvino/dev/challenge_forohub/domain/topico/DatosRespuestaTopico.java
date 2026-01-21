@@ -1,15 +1,20 @@
 package alvino.dev.challenge_forohub.domain.topico;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 public record DatosRespuestaTopico(
         Long id,
         String titulo,
         String mensaje,
+
+        @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime fechaCreacion,
+
         EstadoTopico status,
-        Long autorId,
-        Long cursoId
+        DatosRelacionAutor autor,
+        DatosRelacionCurso curso
 ) {
     public DatosRespuestaTopico(Topico topico) {
         this(
@@ -18,8 +23,8 @@ public record DatosRespuestaTopico(
             topico.getMensaje(),
             topico.getFechaCreacion(),
             topico.getStatus(),
-            topico.getAutorId(),
-            topico.getCursoId()
+            new DatosRelacionAutor(topico.getAutor()),
+            new DatosRelacionCurso(topico.getCurso())
         );
     }
 }

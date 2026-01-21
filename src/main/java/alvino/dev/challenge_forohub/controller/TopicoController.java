@@ -5,6 +5,11 @@ import alvino.dev.challenge_forohub.domain.topico.DatosRespuestaTopico;
 import alvino.dev.challenge_forohub.domain.topico.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,14 +26,22 @@ public class TopicoController {
     @PostMapping
     public ResponseEntity<DatosRespuestaTopico> create(@RequestBody @Valid DatosRegistroTopico datos, UriComponentsBuilder uriBuilder) {
         DatosRespuestaTopico resp = topicoService.create(datos);
-        System.out.println(datos);
         URI url = uriBuilder.path("/topicos/{id}").buildAndExpand(resp.id()).toUri();
         return ResponseEntity.created(url).body(resp);
     }
 
     @GetMapping
-    public String list() {
-        return "Lista de topicos";
+    public ResponseEntity<Page<DatosRespuestaTopico>> list(
+            @RequestParam(required = false) String curso,
+            @RequestParam(required = false) Integer anio,
+            @PageableDefault (size = 10, page = 0, sort = {"fechaCreacion"}, direction = Sort.Direction.ASC)
+            Pageable pageable
+    ) {
+        // var data = topicoService.findAll(pageable);
+        // return ResponseEntity.ok(data);
+
+        Page<DatosRespuestaTopico> datos = topicoService.listarFiltrado(curso, anio, pageable);
+        return ResponseEntity.ok(datos);
     }
 
     @GetMapping("/{id}")
