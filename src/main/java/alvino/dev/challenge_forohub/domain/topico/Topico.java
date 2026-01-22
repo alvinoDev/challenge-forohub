@@ -52,4 +52,7 @@ public class Topico {
         if (datos.mensaje() != null) this.mensaje = datos.mensaje();
         if (datos.status() != null) this.status = datos.status();
     }
+
+    // Eliminación lógica
+    public void softDelete() { this.activo = false; }
 }

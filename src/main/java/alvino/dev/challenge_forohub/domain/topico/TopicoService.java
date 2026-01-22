@@ -80,4 +80,12 @@ public class TopicoService {
 
         return new DatosRespuestaTopico(topico);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Topico topico = topicoRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Tópico no encontrado o ya inactivo"));
+
+        topico.softDelete();
+        // No necesitas save() con @Transactional
+    }
 }

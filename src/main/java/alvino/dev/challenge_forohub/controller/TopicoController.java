@@ -62,7 +62,8 @@ public class TopicoController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete() {
-        System.out.println("delete");
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        topicoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
