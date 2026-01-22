@@ -3,15 +3,13 @@ package alvino.dev.challenge_forohub.domain.topico;
 import alvino.dev.challenge_forohub.domain.curso.Curso;
 import alvino.dev.challenge_forohub.domain.usuario.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity(name = "Topico")
 @Table(name = "topico")
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,5 +44,12 @@ public class Topico {
         this.autor = autor;
         this.curso = curso;
         this.activo = true;
+    }
+
+    // Método para actualizar
+    public void updateData(DatosActualizarTopico datos) {
+        if (datos.titulo() != null) this.titulo = datos.titulo();
+        if (datos.mensaje() != null) this.mensaje = datos.mensaje();
+        if (datos.status() != null) this.status = datos.status();
     }
 }

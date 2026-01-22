@@ -66,5 +66,18 @@ public class TopicoService {
         return new DatosRespuestaTopico(topico);
     }
 
+    @Transactional
+    public DatosRespuestaTopico update(Long id, DatosActualizarTopico datos) {
+        Topico topico = topicoRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Tópico no encontrado o inactivo"));
 
+        topico.updateData(datos);
+        // Necesitas setter o método update, en la entidad Topico "@Setter"
+        if (datos.titulo() != null) { topico.setTitulo(datos.titulo()); }
+        if (datos.mensaje() != null) { topico.setMensaje(datos.mensaje()); }
+        if (datos.status() != null) { topico.setStatus(datos.status()); }
+
+        // topicoRepository.save(topico);  ← No es necesario con @Transactional + dirty checking
+
+        return new DatosRespuestaTopico(topico);
+    }
 }

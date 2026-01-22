@@ -1,5 +1,6 @@
 package alvino.dev.challenge_forohub.controller;
 
+import alvino.dev.challenge_forohub.domain.topico.DatosActualizarTopico;
 import alvino.dev.challenge_forohub.domain.topico.DatosRegistroTopico;
 import alvino.dev.challenge_forohub.domain.topico.DatosRespuestaTopico;
 import alvino.dev.challenge_forohub.domain.topico.TopicoService;
@@ -51,8 +52,13 @@ public class TopicoController {
     }
 
     @PutMapping("/{id}")
-    public void update() {
-        System.out.println("update");
+    public ResponseEntity<DatosRespuestaTopico> update(
+            @PathVariable Long id,
+            @RequestBody @Valid DatosActualizarTopico datos
+    ) {
+
+        DatosRespuestaTopico respuesta = topicoService.update(id, datos);
+        return ResponseEntity.ok(respuesta);
     }
 
     @DeleteMapping("/{id}")
