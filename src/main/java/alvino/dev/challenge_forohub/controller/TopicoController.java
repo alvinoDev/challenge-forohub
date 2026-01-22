@@ -45,8 +45,9 @@ public class TopicoController {
     }
 
     @GetMapping("/{id}")
-    public void getById() {
-        System.out.println("read");
+    public ResponseEntity<DatosRespuestaTopico> getById(@PathVariable Long id) {
+        DatosRespuestaTopico respuesta = topicoService.findById(id);
+        return ResponseEntity.ok(respuesta);
     }
 
     @PutMapping("/{id}")

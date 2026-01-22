@@ -60,4 +60,11 @@ public class TopicoService {
 
         return topicoRepository.findAll(spec, pageable).map(DatosRespuestaTopico::new);
     }
+
+    public DatosRespuestaTopico findById(Long id) {
+        var topico = topicoRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Tópico no encontrado o inactivo"));
+        return new DatosRespuestaTopico(topico);
+    }
+
+
 }
