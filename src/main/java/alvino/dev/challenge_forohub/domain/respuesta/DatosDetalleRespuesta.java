@@ -9,6 +9,7 @@ public record DatosDetalleRespuesta(
         String mensaje,
 
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm") LocalDateTime fechaCreacion,
+        @JsonFormat(pattern = "dd/MM/yyyy HH:mm") LocalDateTime fechaActualizacion,
         Boolean solucion,
         Long topicoId,
         DatosRelacionAutor autor
@@ -18,6 +19,7 @@ public record DatosDetalleRespuesta(
             respuesta.getId(),
             respuesta.getMensaje(),
             respuesta.getFechaCreacion(),
+            respuesta.getFechaActualizacion(),
             respuesta.getSolucion(),
             respuesta.getTopico().getId(),
             new DatosRelacionAutor(respuesta.getAutor())

@@ -50,4 +50,13 @@ public class RespuestaService {
         var respuesta = respuestaRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Respuesta no encontrado o inactivo"));
         return new DatosDetalleRespuesta(respuesta);
     }
+
+    @Transactional
+    public DatosDetalleRespuesta update(Long id, DatosActualizarRespuesta datos) {
+        Respuesta respuesta = respuestaRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Respuesta no encontrado o inactivo"));
+        respuesta.updateData(datos);
+
+        // respuestaRepository.save(respuesta);  ← No es necesario con @Transactional + dirty checking
+        return new DatosDetalleRespuesta(respuesta);
+    }
 }

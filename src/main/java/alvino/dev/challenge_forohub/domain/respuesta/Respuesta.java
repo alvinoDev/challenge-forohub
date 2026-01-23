@@ -1,5 +1,6 @@
 package alvino.dev.challenge_forohub.domain.respuesta;
 
+import alvino.dev.challenge_forohub.domain.curso.Curso;
 import alvino.dev.challenge_forohub.domain.topico.Topico;
 import alvino.dev.challenge_forohub.domain.usuario.Usuario;
 import jakarta.persistence.Entity;
@@ -27,6 +28,7 @@ public class Respuesta {
     private Topico topico;
 
     private LocalDateTime fechaCreacion = LocalDateTime.now();
+    private LocalDateTime fechaActualizacion = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "autor_id", nullable = false)
@@ -39,9 +41,18 @@ public class Respuesta {
     public Respuesta(DatosRegistroRespuesta datos, Topico topico, Usuario autor) {
         this.mensaje = datos.mensaje();
         this.fechaCreacion = LocalDateTime.now();
+        this.fechaActualizacion = LocalDateTime.now();
         this.solucion = false;
         this.activo = true;
         this.topico = topico;
         this.autor = autor;
+    }
+
+    // Método para actualizar
+    public void updateData(DatosActualizarRespuesta datos) {
+        if (datos.mensaje() != null && !datos.mensaje().isBlank()) {
+            this.mensaje = datos.mensaje();
+            this.fechaActualizacion = LocalDateTime.now();
+        }
     }
 }

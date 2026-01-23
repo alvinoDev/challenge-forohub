@@ -1,5 +1,6 @@
 package alvino.dev.challenge_forohub.controller;
 
+import alvino.dev.challenge_forohub.domain.respuesta.DatosActualizarRespuesta;
 import alvino.dev.challenge_forohub.domain.respuesta.DatosDetalleRespuesta;
 import alvino.dev.challenge_forohub.domain.respuesta.DatosRegistroRespuesta;
 import alvino.dev.challenge_forohub.domain.respuesta.RespuestaService;
@@ -45,5 +46,11 @@ public class RespuestaController {
     public ResponseEntity<DatosDetalleRespuesta> getById(@PathVariable Long id){
         DatosDetalleRespuesta respuesta = respuestaService.findById(id);
         return ResponseEntity.ok(respuesta);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DatosDetalleRespuesta> update(@PathVariable Long id, @RequestBody DatosActualizarRespuesta datos) {
+        DatosDetalleRespuesta resp = respuestaService.update(id, datos);
+        return ResponseEntity.ok(resp);
     }
 }
