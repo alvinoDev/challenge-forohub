@@ -62,4 +62,7 @@ public class Respuesta {
         // Opcional: podrías llamar aquí a this.topico.marcarComoResuelto()
         // si quieres que la entidad Respuesta controle al Tópico, pero es más claro hacerlo en el Service.
     }
+
+    // Eliminación lógica
+    public void softDelete() { this.activo = false; }
 }

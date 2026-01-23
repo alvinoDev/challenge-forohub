@@ -86,4 +86,22 @@ public class RespuestaService {
         // No hace falta repository.save, @Transactional hará el "Dirty Checking"
         return new DatosDetalleRespuesta(respuesta);
     }
+
+    @Transactional
+    public void delete(Long id, Long usuarioIdAutenticado) {
+        Respuesta respuesta = respuestaRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Respuesta no encontrada"));
+
+        // Solo el autor de la respuesta puede borrarla
+        if (!respuesta.getAutor().getId().equals(usuarioIdAutenticado)) {
+            throw new RuntimeException("No tienes permiso para eliminar esta respuesta");
+        }
+
+        // Si la respuesta era la solución, "reabrimos" el tópico
+        if (respuesta.getSolucion()) {
+            respuesta.getTopico().setStatus(EstadoTopico.NO_RESPONDIDO); // O el estado inicial que uses
+        }
+
+        respuesta.softDelete();
+        // No necesitas save() con @Transactional
+    }
 }

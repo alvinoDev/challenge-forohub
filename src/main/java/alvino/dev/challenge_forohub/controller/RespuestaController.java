@@ -59,4 +59,10 @@ public class RespuestaController {
         DatosDetalleRespuesta resp = respuestaService.marcarComoSolucion(id, usuarioIdAutenticado);
         return ResponseEntity.ok(resp);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestHeader("Autor-Id") Long usuarioIdAutenticado) {
+        respuestaService.delete(id, usuarioIdAutenticado);
+        return ResponseEntity.noContent().build(); // Retorna 204 No Content
+    }
 }
