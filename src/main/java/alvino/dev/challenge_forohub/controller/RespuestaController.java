@@ -40,4 +40,10 @@ public class RespuestaController {
         var data = respuestaService.findAll(paginacion, topicoId, autor);
         return ResponseEntity.ok(data);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosDetalleRespuesta> getById(@PathVariable Long id){
+        DatosDetalleRespuesta respuesta = respuestaService.findById(id);
+        return ResponseEntity.ok(respuesta);
+    }
 }

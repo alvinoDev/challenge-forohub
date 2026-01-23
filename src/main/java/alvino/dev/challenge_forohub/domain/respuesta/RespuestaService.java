@@ -45,4 +45,9 @@ public class RespuestaService {
         return respuestaRepository.findAllByActivoTrue(pageable)
                 .map(DatosDetalleRespuesta::new);
     }
+
+    public DatosDetalleRespuesta findById(Long id){
+        var respuesta = respuestaRepository.findByIdAndActivoTrue(id).orElseThrow(() -> new RuntimeException("Respuesta no encontrado o inactivo"));
+        return new DatosDetalleRespuesta(respuesta);
+    }
 }
