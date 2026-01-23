@@ -53,4 +53,10 @@ public class RespuestaController {
         DatosDetalleRespuesta resp = respuestaService.update(id, datos);
         return ResponseEntity.ok(resp);
     }
+
+    @PutMapping("/{id}/solucion")
+    public ResponseEntity<DatosDetalleRespuesta> marcarSolucion(@PathVariable Long id, @RequestHeader("Autor-Id") Long usuarioIdAutenticado) {
+        DatosDetalleRespuesta resp = respuestaService.marcarComoSolucion(id, usuarioIdAutenticado);
+        return ResponseEntity.ok(resp);
+    }
 }

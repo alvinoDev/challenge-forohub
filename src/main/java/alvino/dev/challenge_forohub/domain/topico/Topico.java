@@ -53,6 +53,11 @@ public class Topico {
         if (datos.status() != null) this.status = datos.status();
     }
 
+    // Método para actualizar status
+    public void marcarComoResuelto() {
+        this.status = EstadoTopico.RESUELTO;
+    }
+
     // Eliminación lógica
     public void softDelete() { this.activo = false; }
 }

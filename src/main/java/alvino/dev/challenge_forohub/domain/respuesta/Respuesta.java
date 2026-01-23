@@ -55,4 +55,11 @@ public class Respuesta {
             this.fechaActualizacion = LocalDateTime.now();
         }
     }
+
+    // Método para marcar como Solucion para una respuesta
+    public void marcarComoSolucion() {
+        this.solucion = true;
+        // Opcional: podrías llamar aquí a this.topico.marcarComoResuelto()
+        // si quieres que la entidad Respuesta controle al Tópico, pero es más claro hacerlo en el Service.
+    }
 }
