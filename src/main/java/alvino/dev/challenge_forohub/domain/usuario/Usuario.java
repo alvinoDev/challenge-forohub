@@ -1,15 +1,20 @@
 package alvino.dev.challenge_forohub.domain.usuario;
 
-import alvino.dev.challenge_forohub.domain.curso.Categoria;
 import alvino.dev.challenge_forohub.domain.perfil.Perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(name = "Usuario")
 @Table(name = "usuario")
@@ -17,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +34,7 @@ public class Usuario {
     private String contrasena;
     private Boolean activo;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER) // LAZY
     @JoinTable(
             name = "usuario_perfil",  // Tabla intermedia
             joinColumns = @JoinColumn(name = "usuario_id"),
@@ -58,4 +63,45 @@ public class Usuario {
 
     // Eliminación lógica
     public void softDelete() { this.activo = false; }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.perfiles.stream()
+                .map(perfil -> new SimpleGrantedAuthority(perfil.getNombre()))  // ej: "ROLE_USUARIO"
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public @Nullable String getPassword() {
+        return this.contrasena;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.correoElectronico;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired(); // return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked(); // return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired(); // return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();// return this.activo;
+    }
+
+    public void setContrasena(@Nullable String contrasena) {
+        this.contrasena = contrasena;
+    }
 }
