@@ -1,15 +1,16 @@
 package alvino.dev.challenge_forohub.controller;
 
-import alvino.dev.challenge_forohub.domain.usuario.DatosActualizarUsuario;
-import alvino.dev.challenge_forohub.domain.usuario.DatosRegistroUsuario;
-import alvino.dev.challenge_forohub.domain.usuario.DatosRespuestaUsuario;
-import alvino.dev.challenge_forohub.domain.usuario.UsuarioService;
+import alvino.dev.challenge_forohub.domain.usuario.*;
+import alvino.dev.challenge_forohub.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,6 +22,22 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @PostMapping("/login")
+    public ResponseEntity<DatosRespuestaToken> login(@RequestBody @Valid DatosAutenticacionUsuario datos) {
+        System.out.println("Iniciando login");
+        System.out.println(datos.toString());
+        Authentication authToken = new UsernamePasswordAuthenticationToken(datos.correoElectronico(), datos.contrasena());
+        var usuarioAutenticado = authenticationManager.authenticate(authToken);
+        var jwtToken = tokenService.generateToken((Usuario) usuarioAutenticado.getPrincipal());
+        return ResponseEntity.ok(new DatosRespuestaToken(jwtToken));
+    }
 
     @PostMapping
     public ResponseEntity<DatosRespuestaUsuario> registrar(@RequestBody @Valid DatosRegistroUsuario datos, UriComponentsBuilder uriBuilder) {
