@@ -5,6 +5,7 @@ import alvino.dev.challenge_forohub.domain.perfil.PerfilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,17 @@ public class UsuarioService {
     @Autowired
     private PerfilRepository perfilRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public DatosRespuestaUsuario create(DatosRegistroUsuario datos) {
         if (usuarioRepository.existsByCorreoElectronico(datos.correoElectronico())) {
             throw new RuntimeException("Correo electrónico ya registrado");
         }
-        var usuario = new Usuario(datos);
+
+        Usuario usuario = new Usuario(datos);
+        usuario.setContrasena(passwordEncoder.encode(datos.contrasena())); // Se encripta la Contraseña
 
         // Asigna perfiles
         for (Long perfilId : datos.perfilIds()) {
@@ -48,6 +54,10 @@ public class UsuarioService {
     public DatosRespuestaUsuario update(Long id, DatosActualizarUsuario datos) {
         var usuario = usuarioRepository.findByIdWithPerfiles(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         usuario.updateData(datos);
+
+        if(datos.contrasena() != null) {
+            usuario.setContrasena(passwordEncoder.encode(datos.contrasena())); // Se encripta la Contraseña
+        }
 
         // Actualiza perfiles si se envían
         if (datos.perfilIds() != null) {
