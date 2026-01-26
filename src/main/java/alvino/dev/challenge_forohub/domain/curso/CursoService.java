@@ -1,12 +1,10 @@
 package alvino.dev.challenge_forohub.domain.curso;
 
-import alvino.dev.challenge_forohub.domain.topico.DatosRespuestaTopico;
+import alvino.dev.challenge_forohub.infra.exceptions.ValidacionDeNegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class CursoService {
@@ -29,19 +27,19 @@ public class CursoService {
     }
 
     public DatosRespuestaCurso getById(Long id) {
-        var curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var curso = cursoRepository.findById(id).orElseThrow(() -> new ValidacionDeNegocioException("Curso no encontrado"));
         return new DatosRespuestaCurso(curso);
     }
 
     public DatosRespuestaCurso update(Long id, DatosActualizarCurso datos) {
-        var curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var curso = cursoRepository.findById(id).orElseThrow(() -> new ValidacionDeNegocioException("Curso no encontrado"));
         curso.update(datos);
         cursoRepository.save(curso);
         return new DatosRespuestaCurso(curso);
     }
 
     public void delete(Long id) {
-        var curso = cursoRepository.findById(id).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        var curso = cursoRepository.findById(id).orElseThrow(() -> new ValidacionDeNegocioException("Curso no encontrado"));
         curso.softDelete();
         cursoRepository.save(curso);
     }
