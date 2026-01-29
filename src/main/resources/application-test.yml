@@ -3,6 +3,11 @@ spring:
     activate:
       on-profile: test
 
+  # security:
+    # Deshabilitar CSRF en tests
+  #   csrf:
+  #     enabled: false
+
   datasource:
     url: jdbc:h2:mem:forohub_db_test;DB_CLOSE_DELAY=-1;MODE=MySQL
     driver-class-name: org.h2.Driver
@@ -15,6 +20,8 @@ spring:
       ddl-auto: create-drop           # crea y borra la BD cada vez que corren los tests
     properties:
       hibernate:
+        format_sql: false  # TRUE - SQL formateado
+        use_sql_comments: false  # TRUE - Comentarios en SQL
         dialect: org.hibernate.dialect.H2Dialect
 
   h2:
